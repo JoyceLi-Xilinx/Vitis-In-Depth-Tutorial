@@ -71,7 +71,7 @@ It will pop up a window asking for workspace selection. Choose an appropriate fo
 
 ![img](./images/part4_project_creation_3.png)
 
-5. Input Sysroot path, RootFS path and Kernel Image. Click **Next**.
+5. Input Sysroot path, RootFS path and Kernel Image. After downloading the pre-built platform file and common Linux components, you should be able to identify those paths. Click **Next**.
 
 ![img](./images/part4_project_creation_4.png)
 
@@ -114,6 +114,8 @@ It will pop up a window asking for workspace selection. Choose an appropriate fo
 ![img](./images/part4_hwemu_build.png)
 
 3. After building process completes, right click the vadd system project and select **Run As** -> **Launch HW Emulator** from the pop up menu.
+
+![img](./images/part4_hwemu_run.png)
 
 4. If Emulator was not started before, there will be a window notifying about launching emulator. Click **Start Emulator and Run**. Note that you can also check the **Launch Emulator in GUI mode to display waveforms** and this will open up Vivado simulator to view the signals waveform.  
 
@@ -160,6 +162,6 @@ cd /mnt/sd-mmcblk1p1
 
 ## Next Step
 
-Now that you ran your first example, proceed to [**Part 5**](./Part5.md) of this tutorial to learn how to visualize and profile your application with Vitis Analyzer. 
+Now that you ran your first example, proceed to [**Part 5**](./Part5.md) of this tutorial to learn how to visualize and profile your application with Vitis Analyzer.
 
 <p align="center"><sup>Copyright&copy; 2020 Xilinx</sup></p>
