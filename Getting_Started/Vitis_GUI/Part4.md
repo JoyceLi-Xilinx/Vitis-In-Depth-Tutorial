@@ -98,7 +98,7 @@ It will pop up a window asking for workspace selection. Choose an appropriate fo
 
 ![img](./images/part4_swemu_emulator.png)
 
-5. Pay attention to the ```Emulation Console``` window in the right bottom which will display the ARM processor booting messages. After ARM system is up and running, host application will start automatically and you should see ```Test Passed``` message printed out in the main console window if everything goes well.
+5. Pay attention to the Emulation Console window in the right bottom which will display the ARM processor booting messages. After ARM system is up and running, host application will start automatically and you should see ```Test Passed``` message printed out in the main console window if everything goes well.
 
 ![img](./images/part4_swemu_passed.png)
 
@@ -121,7 +121,7 @@ It will pop up a window asking for workspace selection. Choose an appropriate fo
 
 ![img](./images/part4_hwemu_emulator.png)
 
-5. Pay attention to the **Emulation Console** window in the bottom right which will display the ARM processor booting messages. After ARM system is up, host application will start automatically and you should see ```Test Passed``` message printed out in the main console window.
+5. Pay attention to the Emulation Console window in the bottom right which will display the ARM processor booting messages. After ARM system is up, host application will start automatically and you should see ```Test Passed``` message printed out in the main console window.
 
 ### Targeting Hardware
 
@@ -135,11 +135,11 @@ This is a relatively direct and easy way and it is suitable for the scenario tha
 
 ![img](./images/part4_hw_target.png)
 
-2. Right click the **Emulation-HW** run in Assistant window and click **Build**.
+2. Right click the **Hardware** run in Assistant window and click **Build**.
 
 ![img](./images/part4_hw_build.png)
 
-3. Before running the design on hardware, make sure your board is connected and powered on. Then right click the vadd system project and select **Run As** -> **Launch Hardware** from the pop up menu.
+3. Before running the design on hardware, make sure your board is connected and powered on. Then right click the vadd system project and select **Run As** -> **Launch Hardware** from the pop up menu. You should be able to see the **Test Passed** message after application finishes running.
 
 ![img](./images/part4_hw_run.png)
 
