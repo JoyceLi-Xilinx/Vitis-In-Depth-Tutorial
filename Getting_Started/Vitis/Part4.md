@@ -21,7 +21,7 @@
 * Hardware - The kernel code is compiled into a hardware model (RTL) and then implemented on the FPGA, resulting in a binary that will run on the actual FPGA.
 
 
-There are slight differences when targeting data-center and embedded platforms. Instructions for both the ZCU102 and Alveo U200 cards are provided below. These instructions can be easily adapted to other cards. 
+There are slight differences when targeting data-center and embedded platforms. Instructions for both the ZCU102 and Alveo U200 cards are provided below. These instructions can be easily adapted to other cards.
 
 > IMPORTANT: This tutorial requires Vitis 2020.2 or later to run.
 
@@ -64,7 +64,7 @@ export SYSROOT=$ROOTFS/sysroots/aarch64-xilinx-linux
 cd <Path to the cloned repo>/Getting_Started/Vitis/example/zcu102/sw_emu
 
 aarch64-linux-gnu-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${SYSROOT}/usr/include/xrt -L${SYSROOT}/usr/lib -lOpenCL -lpthread -lrt -lstdc++ --sysroot=${SYSROOT}
-v++ -c -t sw_emu --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
+v++ -c -t sw_emu --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo
 v++ -l -t sw_emu --config ../../src/zcu102.cfg ./vadd.xo -o vadd.xclbin
 v++ -p -t sw_emu --config ../../src/zcu102.cfg ./vadd.xclbin --package.out_dir package --package.rootfs ${ROOTFS}/rootfs.ext4 --package.sd_file ${ROOTFS}/Image --package.sd_file xrt.ini --package.sd_file app.exe --package.sd_file vadd.xclbin --package.sd_file run_app.sh
 ```
@@ -72,8 +72,8 @@ v++ -p -t sw_emu --config ../../src/zcu102.cfg ./vadd.xclbin --package.out_dir p
 
 Here is a brief explanation of each of these five commands:
 1. `aarch64-linux-gnu-g++` compiles the host application using the ARM cross-compiler.
-2. `v++ -c` compiles the source code for the vector-add accelerator into a compiled kernel object (.xo file). 
-3. `v++ -l` links the compiled kernel with the target platform and generates the FPGA binary (.xclbin file). 
+2. `v++ -c` compiles the source code for the vector-add accelerator into a compiled kernel object (.xo file).
+3. `v++ -l` links the compiled kernel with the target platform and generates the FPGA binary (.xclbin file).
 4. `v++ -p` packages the host executable, the rootfs, the FPGA binary and a few other files and generates a bootable image.
 
 The -t option of the v++ tool specifies the build target. Here it is set to sw_emu as we are building for software emulation.
@@ -94,7 +94,7 @@ data=all:all:all
 
 
 ```bash
-./package/launch_sw_emu.sh 
+./package/launch_sw_emu.sh
 ```
 
 * This command with launch software emulation, start the Xilinx Quick Emulation (QEMU) and initiate the boot sequence. Once Linux has finished booting, enter the following commands to run the example program:
@@ -130,7 +130,7 @@ TEST PASSED
 cd ../hw_emu
 
 aarch64-linux-gnu-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${SYSROOT}/usr/include/xrt -L${SYSROOT}/usr/lib -lOpenCL -lpthread -lrt -lstdc++ --sysroot=${SYSROOT}
-v++ -c -t hw_emu --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
+v++ -c -t hw_emu --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo
 v++ -l -t hw_emu --config ../../src/zcu102.cfg ./vadd.xo -o vadd.xclbin
 v++ -p -t hw_emu --config ../../src/zcu102.cfg ./vadd.xclbin --package.out_dir package --package.rootfs ${ROOTFS}/rootfs.ext4 --package.sd_file ${ROOTFS}/Image --package.sd_file xrt.ini --package.sd_file app.exe --package.sd_file vadd.xclbin --package.sd_file run_app.sh
 ```
@@ -140,7 +140,7 @@ v++ -p -t hw_emu --config ../../src/zcu102.cfg ./vadd.xclbin --package.out_dir p
 * Building for hardware emulation takes about 5 minutes. After the build process completes, you can launch the hardware emulation run by using the launch script generated during the packaging step.
 
 ```bash
-./package/launch_hw_emu.sh 
+./package/launch_hw_emu.sh
 ```
 
 * Once Linux has finished booting, enter the following commands on the QEMU command line to run the example program:
@@ -159,7 +159,7 @@ export XCL_EMULATION_MODE=hw_emu
 
 * Press Ctrl+a x to exit QEMU and return to your bash shell.
 
- 
+
 
 ### Targeting Hardware
 
@@ -169,7 +169,7 @@ export XCL_EMULATION_MODE=hw_emu
 cd ../hw
 
 aarch64-linux-gnu-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${SYSROOT}/usr/include/xrt -L${SYSROOT}/usr/lib -lOpenCL -lpthread -lrt -lstdc++ --sysroot=${SYSROOT}
-v++ -c -t hw --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
+v++ -c -t hw --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo
 v++ -l -t hw --config ../../src/zcu102.cfg ./vadd.xo -o vadd.xclbin
 v++ -p -t hw --config ../../src/zcu102.cfg ./vadd.xclbin --package.out_dir package --package.rootfs ${ROOTFS}/rootfs.ext4 --package.sd_file ${ROOTFS}/Image --package.sd_file xrt.ini --package.sd_file app.exe --package.sd_file vadd.xclbin --package.sd_file run_app.sh
 ```
@@ -188,7 +188,7 @@ export XILINX_VITIS=/mnt
 ```
 
 * You will see the same TEST PASSED message indicating that the run completed successfully.
-* Congratulations, you just completed your first run of a Vitis accelerated application on the ZCU102 card! 
+* Congratulations, you just completed your first run of a Vitis accelerated application on the ZCU102 card!
 
 </details>
 
@@ -228,16 +228,16 @@ cd <Path to the cloned repo>/Getting_Started/Vitis/example/u200/sw_emu
 
 g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${XILINX_XRT}/include/ -L${XILINX_XRT}/lib/ -lOpenCL -lpthread -lrt -lstdc++
 emconfigutil --platform xilinx_u200_xdma_201830_2 --nd 1
-v++ -c -t sw_emu --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
+v++ -c -t sw_emu --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo
 v++ -l -t sw_emu --config ../../src/u200.cfg ./vadd.xo -o vadd.xclbin
 ```
 
 
 Here is a brief explanation of each of these four commands:
 1. `g++` compiles the host application using the standard GNU C compiler.
-2. `emconfigutil` generates an emulation configuration file which defines the device type and quantity of devices to emulate for the specified platform. 
-3. `v++ -c` compiles the source code for the vector-add accelerator into a compiled kernel object (.xo file). 
-4. `v++ -l` links the compiled kernel with the target platform and generates the FPGA binary (.xclbin file). 
+2. `emconfigutil` generates an emulation configuration file which defines the device type and quantity of devices to emulate for the specified platform.
+3. `v++ -c` compiles the source code for the vector-add accelerator into a compiled kernel object (.xo file).
+4. `v++ -l` links the compiled kernel with the target platform and generates the FPGA binary (.xclbin file).
 
 The -t option of the v++ tool specifies the build target. Here it is set to sw_emu as we are building for software emulation.
 
@@ -273,7 +273,7 @@ INFO: Loading 'vadd.xclbin'
 TEST PASSED
 ```
 
- 
+
 
 ### Targeting Hardware Emulation
 
@@ -284,7 +284,7 @@ cd ../hw_emu
 
 g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${XILINX_XRT}/include/ -L${XILINX_XRT}/lib/ -lOpenCL -lpthread -lrt -lstdc++
 emconfigutil --platform xilinx_u200_xdma_201830_2 --nd 1
-v++ -c -t hw_emu --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
+v++ -c -t hw_emu --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo
 v++ -l -t hw_emu --config ../../src/u200.cfg ./vadd.xo -o vadd.xclbin
 ```
 
@@ -300,7 +300,7 @@ export XCL_EMULATION_MODE=hw_emu
 
 * When the run completes, you should see the TEST PASSED message indicating that the run completed successfully
 
- 
+
 
 ### Targeting Hardware
 
@@ -310,7 +310,7 @@ export XCL_EMULATION_MODE=hw_emu
 cd ../hw
 
 g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${XILINX_XRT}/include/ -L${XILINX_XRT}/lib/ -lOpenCL -lpthread -lrt -lstdc++
-v++ -c -t hw --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
+v++ -c -t hw --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo
 v++ -l -t hw --config ../../src/u200.cfg ./vadd.xo -o vadd.xclbin
 ```
 
@@ -325,17 +325,17 @@ v++ -l -t hw --config ../../src/u200.cfg ./vadd.xo -o vadd.xclbin
 *NOTE: Make sure to run the program on the server where the Alveo card is installed. If you built the application on a different machine, you will need to source the /opt/xilinx/xrt/setup.sh script after connecting to the desired server and before running the above command.*
 
 * You should see the same TEST PASSED message indicating that the run completed successfully.
-* Congratulations, you just completed your first run of a Vitis accelerated application on the Alveo U200 card! 
+* Congratulations, you just completed your first run of a Vitis accelerated application on the Alveo U200 card!
 
 
 </details>
 
- 
+
 
 ## Next Step
 
 Now that you ran your first example, proceed to [**Part 5**](./Part5.md) of this tutorial to learn how to visualize and profile your application with Vitis Analyzer.
 
- 
+
 
 <p align="center"><sup>Copyright&copy; 2020 Xilinx</sup></p>

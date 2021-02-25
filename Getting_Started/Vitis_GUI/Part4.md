@@ -21,19 +21,9 @@
 * Hardware - The kernel code is compiled into a hardware model (RTL) and then implemented on the FPGA, resulting in a binary that will run on the actual FPGA.
 
 
-There are slight differences when targeting data-center and embedded platforms. Instructions for both the ZCU102 and Alveo U200 cards are provided below. These instructions can be easily adapted to other cards. 
-
 > IMPORTANT: This tutorial requires Vitis 2020.2 or later to run.
 
-<details>
-<summary><b>Instructions for the ZCU102 platform, click here</b></summary>
-
-
-## Building and Running on an Embedded Platform (ZCU102)
-
 ### Setting up the environment
-
-*NOTE: The instructions provided below assume that you are running in a bash shell.*
 
 * To configure the environment to run Vitis, source the following scripts:
 
@@ -45,297 +35,131 @@ unset LD_LIBRARY_PATH
 source $XILINX_VITIS/data/emulation/qemu/unified_qemu_v5_0/environment-setup-aarch64-xilinx-linux
 ```
 
-* Then make sure the following environment variables are correctly set to point to the your ZCU102 platform, rootfs and sysroot directories respectively.
+* Then make sure the following environment variables are correctly set to point to the your VCK190 platform, rootfs and sysroot directories respectively.
 
 ```bash
-export PLATFORM_REPO_PATHS=<path to the ZCU102 platform install dir>
-export ROOTFS=<path to the ZYNQMP common image directory, containing rootfs>
+export PLATFORM_REPO_PATHS=<path to the VCK190 platform install dir>
+export ROOTFS=<path to the Versal common image directory, containing rootfs>
 export SYSROOT=$ROOTFS/sysroots/aarch64-xilinx-linux
 ```
-*NOTE: The ZYNQMP common image file can be downloaded from the [Vitis Embedded Platforms](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html) page, and contains the Sysroot, Rootfs, and boot Image for Xilinx Zynq MPSoC devices.*
+*NOTE: The Versal common image file can be downloaded from the [Vitis Embedded Platforms](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html) page, and contains the Sysroot, Rootfs, and boot Image for Xilinx Versal boards.*
+
+
+### Create Vector Addtion Application Project
+
+
+* Launch Vitis GUI
+
+```bash
+vitis &
+```
+It will pop up a window asking for workspace selection. Choose an appropriate folder for this tutorial and click **Launch**.
+
+* Create vector addition application project
+
+1. In the Welcome window, click **Create Application Project** to create a new application project. You may also do it by clicking the **File** menu and select **New** -> **Application project**.
+
+2. The first page of the wizard is a brief introduction, click **Next** and go to the next page.
+
+![img](./images/part4_project_creation_1.png)
+
+3. In the platform selection page, the VCK190 platform should appear in the list if the environment was set up correctly just now. If it is not shown, click the ```+Add``` button on the upper right window to add it into the project workspace. After selecting the VCK190 platform, click **Next**.
+
+![img](./images/part4_project_creation_2.png)
+
+4. In the application project page, set application name as ```vadd``` and target processor as **psv_cortexa72_SMP**. By default, it will create a new system project tied to the application project. Keep the default name and click **Next**.
+
+![img](./images/part4_project_creation_3.png)
+
+5. Input Sysroot path, RootFS path and Kernel Image. Click **Next**.
+
+![img](./images/part4_project_creation_4.png)
+
+6. In the templates page, select **Vector Addition** template. Click **Finish** to complete the application project creation stage.
+
+![img](./images/part4_project_creation_5.png)
 
 
 ### Targeting Software Emulation
 
-* To build for software emulation, enter the following commands:
+1. Now we are going to run the project in software emulation flow. Firstly, open up the system project page and make sure that **Software Emulation** is selected as active build.
 
+![img](./images/part4_swemu_target.png)
 
-```bash
-cd <Path to the cloned repo>/Getting_Started/Vitis/example/zcu102/sw_emu
+2. Right click the **Emulation-SW** run in Assistant window and click **Build**. This will build all the necessary underlying projects.
 
-aarch64-linux-gnu-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${SYSROOT}/usr/include/xrt -L${SYSROOT}/usr/lib -lOpenCL -lpthread -lrt -lstdc++ --sysroot=${SYSROOT}
-v++ -c -t sw_emu --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
-v++ -l -t sw_emu --config ../../src/zcu102.cfg ./vadd.xo -o vadd.xclbin
-v++ -p -t sw_emu --config ../../src/zcu102.cfg ./vadd.xclbin --package.out_dir package --package.rootfs ${ROOTFS}/rootfs.ext4 --package.sd_file ${ROOTFS}/Image --package.sd_file xrt.ini --package.sd_file app.exe --package.sd_file vadd.xclbin --package.sd_file run_app.sh
-```
+![img](./images/part4_swemu_build.png)
 
+3. After building process completes, right click the vadd system project and select **Run As** -> **Launch SW Emulator** from the pop up window.
 
-Here is a brief explanation of each of these five commands:
-1. `aarch64-linux-gnu-g++` compiles the host application using the ARM cross-compiler.
-2. `v++ -c` compiles the source code for the vector-add accelerator into a compiled kernel object (.xo file). 
-3. `v++ -l` links the compiled kernel with the target platform and generates the FPGA binary (.xclbin file). 
-4. `v++ -p` packages the host executable, the rootfs, the FPGA binary and a few other files and generates a bootable image.
+![img](./images/part4_swemu_run.png)
 
-The -t option of the v++ tool specifies the build target. Here it is set to sw_emu as we are building for software emulation.
+4. If Emulator was not started before, there will be a window notifying about launching emulator. Select **Start Emulator and Run**.
 
-Notice also the --config option which is used to specify the name of a configuration file containing additional options. Here we are using this configuration file to specify, amongst others, the name of the targeted platform:
+![img](./images/part4_swemu_emulator.png)
 
-```
-platform=xilinx_zcu102_base_202020_1
-save-temps=1
-debug=1
+5. Pay attention to the ```Emulation Console``` window in the right bottom which will display the ARM processor booting messages. After ARM system is up and running, host application will start automatically and you should see ```Test Passed``` message printed out in the main console window if everything goes well.
 
-# Enable profiling of data ports
-[profile]
-data=all:all:all
-```
-
-* Building for software emulation is quick and shouldn’t take more than a minute or two. After the build process completes, you can launch the software emulation run by using the launch script generated during the packaging step (v++ -p):
-
-
-```bash
-./package/launch_sw_emu.sh 
-```
-
-* This command with launch software emulation, start the Xilinx Quick Emulation (QEMU) and initiate the boot sequence. Once Linux has finished booting, enter the following commands to run the example program:
-
-```bash
-mount /dev/mmcblk0p1 /mnt
-cd /mnt
-cp platform_desc.txt /etc/xocl.txt
-export XILINX_XRT=/usr
-export XILINX_VITIS=/mnt
-export XCL_EMULATION_MODE=sw_emu
-./app.exe
-```
-
-* You should see the following messages, indicating that the run completed successfully:
-
-```bash
-INFO: Found Xilinx Platform
-INFO: Loading 'vadd.xclbin'
-TEST PASSED
-```
-
-* Press Ctrl+a x to exit QEMU and return to your bash shell.
-
-
+![img](./images/part4_swemu_passed.png)
 
 
 ### Targeting Hardware Emulation
 
-* To build for hardware emulation, enter the following commands:
+1. Now we are going to run the project in hardware emulation flow. Firstly, open up the system project page and make sure that **Hardware Emulation** is selected as target.
 
-```bash
-cd ../hw_emu
+![img](./images/part4_hwemu_target.png)
 
-aarch64-linux-gnu-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${SYSROOT}/usr/include/xrt -L${SYSROOT}/usr/lib -lOpenCL -lpthread -lrt -lstdc++ --sysroot=${SYSROOT}
-v++ -c -t hw_emu --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
-v++ -l -t hw_emu --config ../../src/zcu102.cfg ./vadd.xo -o vadd.xclbin
-v++ -p -t hw_emu --config ../../src/zcu102.cfg ./vadd.xclbin --package.out_dir package --package.rootfs ${ROOTFS}/rootfs.ext4 --package.sd_file ${ROOTFS}/Image --package.sd_file xrt.ini --package.sd_file app.exe --package.sd_file vadd.xclbin --package.sd_file run_app.sh
-```
+2. Right click the **Emulation-HW** run in Assistant window and click **Build**.
 
-* The only difference with the previous step is the v++ target (-t) option which is changed from sw_emu to hw_emu. All other options remain identical.
+![img](./images/part4_hwemu_build.png)
 
-* Building for hardware emulation takes about 5 minutes. After the build process completes, you can launch the hardware emulation run by using the launch script generated during the packaging step.
+3. After building process completes, right click the vadd system project and select **Run As** -> **Launch HW Emulator** from the pop up menu.
 
-```bash
-./package/launch_hw_emu.sh 
-```
+4. If Emulator was not started before, there will be a window notifying about launching emulator. Click **Start Emulator and Run**. Note that you can also check the **Launch Emulator in GUI mode to display waveforms** and this will open up Vivado simulator to view the signals waveform.  
 
-* Once Linux has finished booting, enter the following commands on the QEMU command line to run the example program:
+![img](./images/part4_hwemu_emulator.png)
 
-```bash
-mount /dev/mmcblk0p1 /mnt
-cd /mnt
-cp platform_desc.txt /etc/xocl.txt
-export XILINX_XRT=/usr
-export XILINX_VITIS=/mnt
-export XCL_EMULATION_MODE=hw_emu
-./app.exe
-```
-
-* You should see messages that say TEST PASSED indicating that the run completed successfully
-
-* Press Ctrl+a x to exit QEMU and return to your bash shell.
-
- 
+5. Pay attention to the **Emulation Console** window in the bottom right which will display the ARM processor booting messages. After ARM system is up, host application will start automatically and you should see ```Test Passed``` message printed out in the main console window.
 
 ### Targeting Hardware
 
-* To build for hardware, enter the following commands:
+There are two methods to run the application on VCK190 board.
+
+#### Method 1 - Run from Vitis GUI
+
+This is a relatively direct and easy way and it is suitable for the scenario that your board is directly connected to the server that the design is build and run. The way is quite similar to launching emulation runs.
+
+1. Firstly, open up the system project page and make sure that **Hardware** is selected as target.
+
+![img](./images/part4_hw_target.png)
+
+2. Right click the **Emulation-HW** run in Assistant window and click **Build**.
+
+![img](./images/part4_hw_build.png)
+
+3. Before running the design on hardware, make sure your board is connected and powered on. Then right click the vadd system project and select **Run As** -> **Launch Hardware** from the pop up menu.
+
+![img](./images/part4_hw_run.png)
+
+#### Method 2 - Run from SD card
+
+1. Copy **vadd_system/Hardware/sd_card/sd_card** folder to a physical SD card.
+
+2. Insert the SD card into the VCK190 platform and boot the card with SD boot mode (SW6[4:1]=0001).
+
+3. Connect the board with your UART software.
+
+4. Launch the test application by entering following commands.
 
 ```bash
-cd ../hw
-
-aarch64-linux-gnu-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${SYSROOT}/usr/include/xrt -L${SYSROOT}/usr/lib -lOpenCL -lpthread -lrt -lstdc++ --sysroot=${SYSROOT}
-v++ -c -t hw --config ../../src/zcu102.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
-v++ -l -t hw --config ../../src/zcu102.cfg ./vadd.xo -o vadd.xclbin
-v++ -p -t hw --config ../../src/zcu102.cfg ./vadd.xclbin --package.out_dir package --package.rootfs ${ROOTFS}/rootfs.ext4 --package.sd_file ${ROOTFS}/Image --package.sd_file xrt.ini --package.sd_file app.exe --package.sd_file vadd.xclbin --package.sd_file run_app.sh
+cd /mnt/sd-mmcblk1p1
+./vadd binary_container_1.xclbin
 ```
 
-* To target Hardware the v++ -t option is set to hw. All other options remain identical.
-* Building for hardware takes about 30 minutes, but the exact duration will depend on the machine you are building on and its load.
-* After the build process completes, copy the sd_card directory to an SD card and plug it into the platform and boot until you see the Linux prompt. At that point, enter the following commands to execute the accelerated application:
-
-```bash
-mount /dev/mmcblk0p1 /mnt
-cd /mnt
-cp platform_desc.txt /etc/xocl.txt
-export XILINX_XRT=/usr
-export XILINX_VITIS=/mnt
-./app.exe
-```
-
-* You will see the same TEST PASSED message indicating that the run completed successfully.
-* Congratulations, you just completed your first run of a Vitis accelerated application on the ZCU102 card! 
-
-</details>
-
-
-
-<details>
-<summary><b>Instructions for the Alveo U200 platform, click here</b></summary>
-
-
-
-## Building and Running on a Data-Center Platform (U200)
-
-### Setting up the environment
-
-*NOTE: The instructions provided below assume that you are running in a bash shell.*
-
-* To configure the environment to run Vitis, source the following scripts:
-
-```bash
-source <VITIS_install_path>/settings64.sh
-source <XRT_install_path>/setup.sh
-```
-
-* Then make sure the following environment variable is correctly set to point to the your U200 platform installation directory.
-
-```bash
-export PLATFORM_REPO_PATHS=<path to the U200 platform install dir>
-```
-
-### Targeting Software Emulation
-
-* To build for software emulation, enter the following commands:
-
-
-```bash
-cd <Path to the cloned repo>/Getting_Started/Vitis/example/u200/sw_emu
-
-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${XILINX_XRT}/include/ -L${XILINX_XRT}/lib/ -lOpenCL -lpthread -lrt -lstdc++
-emconfigutil --platform xilinx_u200_xdma_201830_2 --nd 1
-v++ -c -t sw_emu --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
-v++ -l -t sw_emu --config ../../src/u200.cfg ./vadd.xo -o vadd.xclbin
-```
-
-
-Here is a brief explanation of each of these four commands:
-1. `g++` compiles the host application using the standard GNU C compiler.
-2. `emconfigutil` generates an emulation configuration file which defines the device type and quantity of devices to emulate for the specified platform. 
-3. `v++ -c` compiles the source code for the vector-add accelerator into a compiled kernel object (.xo file). 
-4. `v++ -l` links the compiled kernel with the target platform and generates the FPGA binary (.xclbin file). 
-
-The -t option of the v++ tool specifies the build target. Here it is set to sw_emu as we are building for software emulation.
-
-Notice also the --config option which is used to specify the name of a configuration file containing additional options. Here we are using this configuration file to specify, amongst others, the name of the targeted platform and the mapping of kernel arguments to DDR banks.
-
-```
-platform=xilinx_u200_xdma_201830_2
-debug=1
-save-temps=1
-
-[connectivity]
-nk=vadd:1:vadd_1
-sp=vadd_1.in1:DDR[1]
-sp=vadd_1.in2:DDR[2]
-sp=vadd_1.out:DDR[1]
-
-[profile]
-data=all:all:all
-```
-
-* Building for software emulation is quick and shouldn’t take more than a minute or two. After the build process completes, you can launch the software emulation run as follows:
-
-```bash
-export XCL_EMULATION_MODE=sw_emu
-./app.exe
-```
-
-* You should see the following messages, indicating that the run completed successfully:
-
-```bash
-INFO: Found Xilinx Platform
-INFO: Loading 'vadd.xclbin'
-TEST PASSED
-```
-
- 
-
-### Targeting Hardware Emulation
-
-* To build for hardware emulation, enter the following commands:
-
-```bash
-cd ../hw_emu
-
-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${XILINX_XRT}/include/ -L${XILINX_XRT}/lib/ -lOpenCL -lpthread -lrt -lstdc++
-emconfigutil --platform xilinx_u200_xdma_201830_2 --nd 1
-v++ -c -t hw_emu --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
-v++ -l -t hw_emu --config ../../src/u200.cfg ./vadd.xo -o vadd.xclbin
-```
-
-
-* The only difference with the previous step is the v++ target (-t) option which is changed from sw_emu to hw_emu. All other options remain identical.
-
-* Building for hardware emulation takes about 5 or 6 minutes. After the build process completes, you can launch the hardware emulation run as follows.
-
-```bash
-export XCL_EMULATION_MODE=hw_emu
-./app.exe
-```
-
-* When the run completes, you should see the TEST PASSED message indicating that the run completed successfully
-
- 
-
-### Targeting Hardware
-
-* To build for the hardware, enter the following commands:
-
-```bash
-cd ../hw
-
-g++ -Wall -g -std=c++11 ../../src/host.cpp -o app.exe -I${XILINX_XRT}/include/ -L${XILINX_XRT}/lib/ -lOpenCL -lpthread -lrt -lstdc++
-v++ -c -t hw --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o vadd.xo 
-v++ -l -t hw --config ../../src/u200.cfg ./vadd.xo -o vadd.xclbin
-```
-
-* To target Hardware, the v++ -t option is set to hw and the emconfigutil step is skipped as it only applies to emulation. All other options remain identical.
-* Building for hardware may take between 1.5 and 2 hours depending on the machine you are building on and its load.
-* After the build completes you can run the application accelerated with the U200 card:
-
-```bash
-./app.exe
-```
-
-*NOTE: Make sure to run the program on the server where the Alveo card is installed. If you built the application on a different machine, you will need to source the /opt/xilinx/xrt/setup.sh script after connecting to the desired server and before running the above command.*
-
-* You should see the same TEST PASSED message indicating that the run completed successfully.
-* Congratulations, you just completed your first run of a Vitis accelerated application on the Alveo U200 card! 
-
-
-</details>
-
- 
+5. And you should be able to see the **Test Passed** information in UART console.
 
 ## Next Step
 
-Now that you ran your first example, proceed to [**Part 5**](./Part5.md) of this tutorial to learn how to visualize and profile your application with Vitis Analyzer.
-
- 
+Now that you ran your first example, proceed to [**Part 5**](./Part5.md) of this tutorial to learn how to visualize and profile your application with Vitis Analyzer. 
 
 <p align="center"><sup>Copyright&copy; 2020 Xilinx</sup></p>
