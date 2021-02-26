@@ -48,7 +48,7 @@ When working with Vitis GUI, the tool will automatically configure to generate t
 
 ![img](./images/part5_run_configuration_2.png)
 
-Click **Edit** button under the **Xilinx Runtime Profiling** category and select **OpenCL detailed profile summary and timeline trace** option. Click **OK** and then click **Run*** to launch it. After emulation process completed, double click the run summary report to open it once again. In the new report, you should see the Application Timeline report tab is shown in the navigation panel.
+Click **Edit** button under the **Xilinx Runtime Profiling** category and select **OpenCL detailed profile summary and timeline trace** option. Click **OK** and then click **Run** to launch it. After emulation process completed, double click the run summary report to open it once again. In the new report, you should see the Application Timeline report tab is shown in the navigation panel.
 
 ![img](./images/part5_timeline_trace.png)
 
