@@ -145,7 +145,7 @@ This is a relatively direct and easy way and it is suitable for the scenario tha
 
 #### Method 2 - Run from SD card
 
-1. Copy **vadd_system/Hardware/sd_card/sd_card** folder to a physical SD card.
+1. Copy **vadd_system/Hardware/package/sd_card** folder to a physical SD card.
 
 2. Insert the SD card into the VCK190 platform and boot the card with SD boot mode (SW6[4:1]=0001).
 
