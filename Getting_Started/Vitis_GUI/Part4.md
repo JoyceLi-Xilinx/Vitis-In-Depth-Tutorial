@@ -21,7 +21,7 @@
 * Hardware - The kernel code is compiled into a hardware model (RTL) and then implemented on the FPGA, resulting in a binary that will run on the actual FPGA.
 
 
-> IMPORTANT: This tutorial requires Vitis 2020.2 or later to run.
+##### IMPORTANT: This tutorial requires Vitis 2020.2 or later to run.
 
 ### Setting up the environment
 
@@ -71,7 +71,14 @@ It will pop up a window asking for workspace selection. Choose an appropriate fo
 
 ![img](./images/part4_project_creation_3.png)
 
-5. Input Sysroot path, RootFS path and Kernel Image. After downloading the pre-built platform file and common Linux components, you should be able to identify those paths. Click **Next**.
+5. Input Sysroot path, RootFS path and Kernel Image. Those paths are pointing to the folder and files of common linux package that you downloaded in previous steps.
+For the usage of these files, you will find more detailed in the Vitis Doc: https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_embedded_installation.html?hl=sdk.sh#rvu1542160683426
+
+ - Sysroot path (xilinx-versal-common-v2020.2/sysroots/aarch64-xilinx-linux)
+ - Root FS (xilinx-versal-common-v2020.2/rootfs.ext4)
+ - Kernel Image (xilinx-zynqmp-common-v2020.2/Image)
+
+Click **Next**.
 
 ![img](./images/part4_project_creation_4.png)
 
@@ -82,7 +89,7 @@ It will pop up a window asking for workspace selection. Choose an appropriate fo
 
 ### Targeting Software Emulation
 
-1. Now we are going to run the project in software emulation flow. Firstly, open up the system project page and make sure that **Software Emulation** is selected as active build.
+1. Now we are going to run the project in software emulation flow. Firstly, double click the 'vadd_system.sprj' file from the Explorer window to open up the system project settings page and make sure that **Software Emulation** is selected as active build.
 
 ![img](./images/part4_swemu_target.png)
 

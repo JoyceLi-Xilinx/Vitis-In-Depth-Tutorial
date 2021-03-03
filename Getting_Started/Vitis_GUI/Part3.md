@@ -14,9 +14,9 @@
 
  The example used in this tutorial is a trivial vector-add application. The simplicity of this example allows focusing on the key concepts of FPGA acceleration without being distracted by complicated algorithmic consideration.
 
- 
 
-## The Source Code for the Vector-Add Kernel 
+
+## The Source Code for the Vector-Add Kernel
 
 In this tutorial the hardware accelerator (also referred to as kernel) is modeled in C++. The Vitis flow also supports kernels coded in Verilog or VHDL. A example using an Verilog RTL version of the vector-add kernel can be found [here](https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/rtl_kernels/rtl_vadd).
 
@@ -47,9 +47,9 @@ extern "C" {
 
 This simple example highlights two important aspects of C++ kernels:
 1. Vitis requires C++ kernels to be declared as `extern “C”` to avoid name mangling issues
-2. The results of the Vitis compilation process are controlled by the usage of pragmas in the source code. 
+2. The results of the Vitis compilation process are controlled by the usage of pragmas in the source code.
 
-Other than this, the functionality of the vector-add kernel is very easily recognizable. The vadd function reads in two inputs vectors (in1 and in2) and adds them into the out vector using a simple for loop. The ‘size’ parameter indicates the number of elements in the input and output vector. 
+Other than this, the functionality of the vector-add kernel is very easily recognizable. The vadd function reads in two inputs vectors (in1 and in2) and adds them into the out vector using a simple for loop. The ‘size’ parameter indicates the number of elements in the input and output vector.
 
 The pragmas are used to map function parameters to distinct kernel ports. By mapping the two inputs parameters to different input ports, the kernel will be able to read both inputs in parallel. As a general rule, and without going into further details in this introductory tutorial, it is important to think about interface requirements of hardware accelerators and they will have a determining impact on maximum achievable performance.
 
@@ -58,11 +58,11 @@ The Vitis online documentation provides comprehensive information on [C++ kernel
 
 
 
-## The Source Code for the Host Program 
+## The Source Code for the Host Program
 
 The source code for the host program is written in C/C++ and uses standard OpenCL APIs to interact with the hardware-accelerated vector-add kernel.
 
-* Open the [`host.cpp`](./example/src/host.cpp) file located in the `src` directory of this tutorial
+* Open the [`host.cpp`](./example/src/host.cpp) file located in the `example\src` directory of this tutorial
 
 There are 4 main steps in the source code for this simple example.
 
@@ -81,7 +81,7 @@ There are 4 main steps in the source code for this simple example.
 *NOTE: A common alternative is for the application to explicitly allocate host memory and reuse the corresponding pointers when creating the buffers. The approach used in this example was chosen because it is the most portable and efficient across both data-center and embedded platforms.*
 
 
-* **Step 3:** The host program sets the arguments of the kernel, then schedules three operations: the transfers of the two input vectors to device memory, the execution of the kernel, and lastly the transfer of the results back to host memory. These operations are enqueued in the command queue declared in Step 1. It is important to keep in mind that these three function calls are non-blocking. The commands are put in the queue and the Xilinx Runtime is responsible for submitting them to the device. Because the queue used in the host code in this example is an ordered queue, these commands are guaranteed to execute in the specified order. However, the queue could also be an out-of-order queue in which the non-blocking calls would be executed when ready, rather than in order. The call to `q.finish()` is necessary to wait until all enqueued commands run to completion. 
+* **Step 3:** The host program sets the arguments of the kernel, then schedules three operations: the transfers of the two input vectors to device memory, the execution of the kernel, and lastly the transfer of the results back to host memory. These operations are enqueued in the command queue declared in Step 1. It is important to keep in mind that these three function calls are non-blocking. The commands are put in the queue and the Xilinx Runtime is responsible for submitting them to the device. Because the queue used in the host code in this example is an ordered queue, these commands are guaranteed to execute in the specified order. However, the queue could also be an out-of-order queue in which the non-blocking calls would be executed when ready, rather than in order. The call to `q.finish()` is necessary to wait until all enqueued commands run to completion.
 
 ```cpp
     // Set kernel arguments
@@ -91,7 +91,7 @@ There are 4 main steps in the source code for this simple example.
     krnl_vector_add.setArg(3, DATA_SIZE);
 
     // Schedule transfer of inputs to device memory, execution of kernel, and transfer of outputs back to host memory
-    q.enqueueMigrateMemObjects({in1_buf, in2_buf}, 0 /* 0 means from host*/); 
+    q.enqueueMigrateMemObjects({in1_buf, in2_buf}, 0 /* 0 means from host*/);
     q.enqueueTask(krnl_vector_add);
     q.enqueueMigrateMemObjects({out_buf}, CL_MIGRATE_MEM_OBJECT_HOST);
 
@@ -101,7 +101,7 @@ There are 4 main steps in the source code for this simple example.
 
 * **Step 4:** The call to `q.finish()` returns when all previously enqueued operations have completed. In this case, it implies that the output buffer containing the results of the kernel have been migrated back to host memory and can safely be used by the software application. Here the results are simply checked against expected values before the program finishes.
 
-This example shows the simplest way of using OpenCL APIs to interact with the hardware accelerator. As always, additional information can be found in the [Vitis documentation](https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#vpy1519742402284). 
+This example shows the simplest way of using OpenCL APIs to interact with the hardware accelerator. As always, additional information can be found in the [Vitis documentation](https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#vpy1519742402284).
 
 
 
@@ -109,6 +109,6 @@ This example shows the simplest way of using OpenCL APIs to interact with the ha
 
 Now that you understand the source code for both kernel and the host program, [**Part 4**](./Part4.md) will explain how to compile and run this example.
 
- 
+
 
 <p align="center"><sup>Copyright&copy; 2020 Xilinx</sup></p>

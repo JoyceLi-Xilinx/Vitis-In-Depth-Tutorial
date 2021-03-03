@@ -42,7 +42,7 @@ After downloading the Vitis, XRT and platform packages, installing them in the f
 
 <summary><b>For Embedded platforms, click here</b></summary>
 
-Xilinx provides base platforms for the ZCU102 and ZCU104 cards. Before installing a platform, you need to download the following packages:
+Xilinx provides base platforms for the ZCU102，ZCU104 and VCK190 cards. Before installing a platform, you need to download the following packages:
 
 1. XRT
 2. Base platform
@@ -53,6 +53,8 @@ The packages required for each platform can be found on the corresponding downlo
 * [ZCU102](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 
 * [ZCU104](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
+
+* [VCK190](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 
 </details>
 
@@ -98,7 +100,7 @@ To specify the location of any Data-Center or Embedded platforms you have instal
 export PLATFORM_REPO_PATHS=<path to platforms>
 ```
 
-*NOTE: On some Ubuntu distributions, you must also export LIBRARY_PATH to properly set up Vitis.*
+*NOTE: For Ubuntu 18.04 distributions, you must also export LIBRARY_PATH to properly set up Vitis.*
 
 ```bash
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
