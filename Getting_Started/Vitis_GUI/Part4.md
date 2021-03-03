@@ -76,7 +76,7 @@ For the usage of these files, you will find more detailed in the Vitis Doc: http
 
  - Sysroot path (xilinx-versal-common-v2020.2/sysroots/aarch64-xilinx-linux)
  - Root FS (xilinx-versal-common-v2020.2/rootfs.ext4)
- - Kernel Image (xilinx-zynqmp-common-v2020.2/Image)
+ - Kernel Image (xilinx-versal-common-v2020.2/Image)
 
 Click **Next**.
 
