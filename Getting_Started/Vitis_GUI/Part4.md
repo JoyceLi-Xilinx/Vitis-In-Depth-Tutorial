@@ -158,7 +158,7 @@ This is a relatively direct and easy way and it is suitable for the scenario tha
 
 3. Connect the board with your UART software.
 
-4. Launch the test application by entering following commands.
+4. Launch the host application by entering following commands.
 
 ```bash
 cd /mnt/sd-mmcblk1p1
