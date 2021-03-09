@@ -15,19 +15,19 @@
 To develop and deploy applications with Vitis, you need to install the Vitis unified software environment, the Xilinx Runtime library (XRT) and the platform files specific to the acceleration card used in your project.
 
 
-## Step 1 – Installation Requirements
+## Step 1 Installation Requirements
 
 Prior to starting the installation process, make sure to check the [Vitis installation requirements](https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/acceleration_installation.html#igz1531201833632).
 
 *NOTE: Windows OS support is limited to the Vitis embedded software development flow. The Vitis acceleration flow is only supported on Linux.*
 
 
-## Step 2 – Download Vitis
+## Step 2 Download Vitis
 
 Download the latest version of the Vitis from the [Xilinx download website](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis.html). Make sure to download the Linux Self-Extracting web installer or the Single-File installer.
 
 
-## Step 3 – Install Downloaded Packages
+## Step 3 Install Downloaded Packages
 
 After downloading the Vitis, XRT and platform packages, installing them in the following order and according to the provided instructions:
 
