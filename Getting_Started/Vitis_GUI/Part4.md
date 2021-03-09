@@ -26,7 +26,7 @@ source <VITIS_install_path>/settings64.sh
 source <XRT_install_path>/setup.sh
 ```
 
-Make sure the VCK190 platform file and sysroots is installed properly. The instructions about how to install an embedded platform is listed in [**Part 2**](./Part2.md##-step---3–install-downloaded-packages).
+Make sure the VCK190 platform file and sysroots is installed properly. The instructions about how to install an embedded platform is listed in [**Part 2**](./Part2.md##step---3–install-downloaded-packages).
 
 *NOTE: The Versal common image file can be downloaded from the [Vitis Embedded Platforms](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html) page, and contains the Sysroot, Rootfs, and boot Image for Xilinx Versal boards.*
 
