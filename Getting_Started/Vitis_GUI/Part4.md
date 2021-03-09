@@ -14,12 +14,6 @@
 
  In this fourth part of the Introduction to Vitis tutorial, you will compile and run the vector-add example using each of three build targets supported in the Vitis flow (software emulation, hardware emulation and hardware).
 
-* Software Emulation - The kernel code is compiled to run on the host processor. This allows iterative algorithm refinement through fast build-and-run loops. This target is useful for identifying syntax errors, performing source-level debugging of the kernel code running together with application, and verifying the behavior of the system.
-
-* Hardware Emulation - The kernel code is compiled into a hardware model (RTL), which is run in a dedicated simulator. This build-and-run loop takes longer but provides a detailed, cycle-accurate view of kernel activity. This target is useful for testing the functionality of the logic that will go in the FPGA and getting initial performance estimates.
-
-* Hardware - The kernel code is compiled into a hardware model (RTL) and then implemented on the FPGA, resulting in a binary that will run on the actual FPGA.
-
 
 ##### IMPORTANT: This tutorial requires Vitis 2020.2 or later to run.
 
@@ -27,26 +21,17 @@
 
 * To configure the environment to run Vitis, source the following scripts:
 
-
 ```bash
 source <VITIS_install_path>/settings64.sh
 source <XRT_install_path>/setup.sh
-unset LD_LIBRARY_PATH
-source $XILINX_VITIS/data/emulation/qemu/unified_qemu_v5_0/environment-setup-aarch64-xilinx-linux
 ```
 
-* Then make sure the following environment variables are correctly set to point to the your VCK190 platform, rootfs and sysroot directories respectively.
+Make sure the VCK190 platform file and sysroots is installed properly. The instructions about how to install an embedded platform is listed in [**Part 2**](./Part2.md#Step-3–Install-Downloaded-Packages).
 
-```bash
-export PLATFORM_REPO_PATHS=<path to the VCK190 platform install dir>
-export ROOTFS=<path to the Versal common image directory, containing rootfs>
-export SYSROOT=$ROOTFS/sysroots/aarch64-xilinx-linux
-```
 *NOTE: The Versal common image file can be downloaded from the [Vitis Embedded Platforms](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html) page, and contains the Sysroot, Rootfs, and boot Image for Xilinx Versal boards.*
 
 
 ### Create Vector Addtion Application Project
-
 
 * Launch Vitis GUI
 
@@ -75,6 +60,9 @@ It will pop up a window asking for workspace selection. Choose an appropriate fo
 For the usage of these files, you will find more detailed in the Vitis Doc: https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_embedded_installation.html?hl=sdk.sh#rvu1542160683426
 
  - Sysroot path (xilinx-versal-common-v2020.2/sysroots/aarch64-xilinx-linux)
+
+> NOTE: The sysroots folder is generated after you run the xilinx-versal-common-v2020.2/sdk.sh script.
+
  - Root FS (xilinx-versal-common-v2020.2/rootfs.ext4)
  - Kernel Image (xilinx-versal-common-v2020.2/Image)
 
@@ -154,7 +142,7 @@ This is a relatively direct and easy way and it is suitable for the scenario tha
 
 1. Copy **vadd_system/Hardware/package/sd_card** folder to a physical SD card.
 
-2. Insert the SD card into the VCK190 platform and boot the card with SD boot mode (SW6[4:1]=0001).
+2. Insert the SD card into the VCK190 platform and set the switch SW1 Mode[3:0]=1110 = OFF OFF OFF ON.
 
 3. Connect the board with your UART software.
 
