@@ -140,13 +140,20 @@ This is a relatively direct and easy way and it is suitable for the scenario tha
 
 #### Method 2 - Run from SD card
 
-1. Copy **vadd_system/Hardware/package/sd_card** folder to a physical SD card.
+1. Copy vadd_system/Hardware/package/sd_card.img to local if you build the project on a remote server or virtual machine.
 
-2. Insert the SD card into the VCK190 platform and set the switch SW1 Mode[3:0]=1110 = OFF OFF OFF ON.
+2. Program sd_card.img to SD card. Refer to [AR#73711](https://www.xilinx.com/support/answers/73711.html) for detailed steps.
+Note: The programmed SD card has two partitions. FAT32 partition with boot components; EXT4 partition with Linux root file system. Windows system by default cannot see the contents of EXT4 partition.
+Note: Please eject the SD card properly from the system after programming it.
 
-3. Connect the board with your UART software.
+3. Insert the SD card and boot the VCK190 board with SD boot mode (SW1[4:1] = "1110": OFF, OFF, OFF, ON) and power on.
+Note: Refer to [VCK190 Evaluation Board User Guide](https://www.xilinx.com/support/documentation/boards_and_kits/vck190/ug1366-vck190-eval-bd.pdf) for details about boot mode.
 
-4. Launch the host application by entering following commands.
+4. Connect to UART console.
+
+5. Launch the test application from UART console.
+
+6. Run application using below commands:
 
 ```bash
 cd /mnt/sd-mmcblk1p1
