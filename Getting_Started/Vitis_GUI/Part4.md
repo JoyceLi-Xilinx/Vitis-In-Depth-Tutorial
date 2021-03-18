@@ -160,7 +160,7 @@ cd /mnt/sd-mmcblk1p1
 ./vadd binary_container_1.xclbin
 ```
 
-5. And you should be able to see the **Test Passed** information in UART console.
+7. And you should be able to see the **Test Passed** information in UART console.
 
 ## Next Step
 
