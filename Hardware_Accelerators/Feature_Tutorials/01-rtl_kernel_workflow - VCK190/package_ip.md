@@ -161,7 +161,7 @@ B | pointer argument | 0x024 | 64
 1. Under the Packaging Steps, Select **Review and Package**.
    This displays the Review and Package window.
 
-3. Use the following commands in the Tcl Console to add these properties.
+2. Use the following commands in the Tcl Console to add these properties.
 
     ```
     set core [ipx::current_core]
@@ -169,21 +169,21 @@ B | pointer argument | 0x024 | 64
     set_property sdx_kernel_type rtl $core
     ```
 
-4. After setting these properties you can optionally run the **ipx::check_integrity [ipx::current_core]** command, and your IP should pass the check.
+3. After setting these properties you can optionally run the **ipx::check_integrity [ipx::current_core]** command, and your IP should pass the check.
 
    You are now ready to package the IP. However, first check that an archive file will be generated when packaging the IP.
 
-5. Look in the **After Packaging** section of the Review and Package window. If you see that an archive will not be generated, then you should enable the archive:
+4. Look in the **After Packaging** section of the Review and Package window. If you see that an archive will not be generated, then you should enable the archive by following steps:
 
-6. In the Review and Package window, select **Edit packaging settings**.This displays the Settings dialog box with the IP Package section displayed.
+  - In the Review and Package window, select **Edit packaging settings**.This displays the Settings dialog box with the IP Package section displayed.
 
-7. Under the After Packaging section of the dialog box, enable **Create archive of IP** as shown below, and click **OK**.
+  - Under the After Packaging section of the dialog box, enable **Create archive of IP** as shown below, and click **OK**.
 
    ![Enable Archive](./images/enable_archive_settings.png)  
 
    You should see the Review and Package window change to reflect that an archive will now be created.
 
-7. Click **Package IP**.
+5. Click **Package IP**.
 
    After packaging the IP you should see dialog box indicating that the IP packaged successfully.
 
