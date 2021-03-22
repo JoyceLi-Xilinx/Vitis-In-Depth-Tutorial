@@ -131,6 +131,7 @@ The Summary page displays the summary of the various other pages you just steppe
 - **Target platform**: Specifies what platform the RTL kernel will be compiled for. The RTL kernel must be recompiled to support different platforms.
 - **Function prototype**: Conveys what a kernel call would be like if it was a C function.
 - **Register map**: Displays the relationship between the host software ID, argument name, hardware register offset, datatype, and associated AXI interface.
+
 ![Summary Page](./images/rtl_kernel-summary_page.png)
 
    The RTL Kernel Wizard uses the specification captured through the various steps and summarized in the Summary page to generate:
