@@ -32,7 +32,7 @@ After exiting the Vivado tool, the following files are added to the HW kernel pr
 
 2. In the Project Explorer view, right-click the Processor project (`rtl_ke_t2`) and click **Import Sources** to add the host code.
 
-3. In the From directory field, click **Browse...**, navigate to `01=rtl_kernel_workflow/reference-files/src`, select the `host` folder, and click **Open**.
+3. In the From directory field, click **Browse...**, navigate to `01-rtl_kernel_workflow/reference-files/src`, select the `host` folder, and click **Open**.
 
 4. Select `host.cpp` to add the host application code to your project.
 
