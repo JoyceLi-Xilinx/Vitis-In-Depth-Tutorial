@@ -129,7 +129,7 @@ The Hardware Emulation target is useful for:
 
 The Vitis IDE can automatically search and include the `xclbin` file when the **Automatically update arguments** is enabled. However, in this case you will disable this checkbox because you need to add two arguments.
 
-Disable the checkbox, and enter **.../binary_container_1.xclbin xilinx_vck190_base_202020_1** in the `Program Arguments` field of the `Edit Program Arguments` dialog box as shown in the image below.
+Disable the checkbox, and enter **../binary_container_1.xclbin xilinx_vck190_base_202020_1** in the `Program Arguments` field of the `Edit Program Arguments` dialog box as shown in the image below.
 
    ![Edit Program Arguments](./images/program-arguments.png)
 
